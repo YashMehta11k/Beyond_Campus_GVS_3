@@ -26,25 +26,5 @@ public class PostNewModuleOfPartnerUni extends AbstractPostRelationState<Respons
                 getAcceptRequestHeader(),
                 this.primaryId, this.modelToStore.getId());
 
-        if(isPartnerUniLinkedToThisModule()){
-
-            addLink(PartnerUniModuleUri.REL_PATH_ID,
-                    PartnerUniModuleRelTypes.DELETE_LINK_FROM_PARTNERUNI_TO_MODULE,
-                    getAcceptRequestHeader(),
-                    this.primaryId,this.modelToStore.getId());
-        }else{
-
-            addLink(PartnerUniModuleUri.REL_PATH_ID,
-                    PartnerUniModuleRelTypes.CREATE_LINK_FROM_PARTNERUNI_TO_MODULE,
-                    getAcceptRequestHeader(),
-                    this.primaryId,this.modelToStore.getId());
-        }
-    }
-
-    private boolean isPartnerUniLinkedToThisModule(){
-        return !DaoFactory.getInstance()
-                .getPartnerUniModuleDao()
-                .readById(this.primaryId,this.modelToStore.getId())
-                .isEmpty();
     }
 }

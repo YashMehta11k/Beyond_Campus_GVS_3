@@ -87,10 +87,11 @@ public class PartnerUniJerseyService extends AbstractJerseyService {
     @Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
     public Response getModulesOfPartnerUni(@PathParam("partneruniId") final long partneruniId,
                                            @DefaultValue("") @QueryParam("modName") final String modName,
+                                           @DefaultValue("false") @QueryParam("showAll") final boolean showAll,
                                            @DefaultValue("0") @QueryParam("offset") int offset,
                                            @DefaultValue("20") @QueryParam("size") int size){
         try {
-            return new GetAllModulesofPartnerUni(this.serviceContext,partneruniId,new QueryByModName<>(partneruniId,modName,offset,size)).execute();
+            return new GetAllModulesofPartnerUni(this.serviceContext,partneruniId,new QueryByModName<>(partneruniId,modName,showAll,offset,size)).execute();
         }catch (SuttonWebAppException e){
             throw new WebApplicationException(Response.status(e.getStatus().getCode()).entity(e.getExceptionMessage()).build());
         }

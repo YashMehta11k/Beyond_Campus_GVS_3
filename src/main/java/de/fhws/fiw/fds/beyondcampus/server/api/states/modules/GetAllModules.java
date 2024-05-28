@@ -1,6 +1,8 @@
 package de.fhws.fiw.fds.beyondcampus.server.api.states.modules;
 
 import de.fhws.fiw.fds.beyondcampus.server.api.models.Module;
+import de.fhws.fiw.fds.beyondcampus.server.api.states.partnerUniModules.PartnerUniModuleRelTypes;
+import de.fhws.fiw.fds.beyondcampus.server.api.states.partnerUniModules.PartnerUniModuleUri;
 import de.fhws.fiw.fds.beyondcampus.server.database.DaoFactory;
 import de.fhws.fiw.fds.sutton.server.api.queries.AbstractQuery;
 import de.fhws.fiw.fds.sutton.server.api.serviceAdapters.responseAdapter.JerseyResponse;
@@ -21,8 +23,8 @@ public class GetAllModules extends AbstractGetCollectionState<Response, Module> 
     @Override
     protected void defineTransitionLinks(){
 
-        addLink(ModuleUri.REL_PATH,
-                ModuleRelTypes.CREATE_MODULE,
+        addLink(PartnerUniModuleUri.REL_PATH,
+                PartnerUniModuleRelTypes.CREATE_MODULE,
                 getAcceptRequestHeader());
     }
 

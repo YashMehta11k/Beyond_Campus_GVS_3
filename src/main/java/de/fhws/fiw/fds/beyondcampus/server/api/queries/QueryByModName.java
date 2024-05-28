@@ -11,12 +11,14 @@ import de.fhws.fiw.fds.sutton.server.database.results.CollectionModelResult;
 public class QueryByModName<R> extends AbstractRelationQuery<R, Module> {
 
     private String modName;
+    private boolean showAll;
 
     private int waitingTime;
 
-    public QueryByModName(long primaryId,String modName,int offset,int size){
+    public QueryByModName(long primaryId,String modName,boolean showAll,int offset,int size){
         super(primaryId);
         this.modName=modName;
+        this.showAll=showAll;
         this.pagingBehavior=new PagingBehaviorUsingOffsetSize<>(offset,size);
     }
 
@@ -30,6 +32,6 @@ public class QueryByModName<R> extends AbstractRelationQuery<R, Module> {
 
     @Override
     protected CollectionModelResult<Module> doExecuteQuery(SearchParameter searchParameter) throws DatabaseException{
-        return DaoFactory.getInstance().getPartnerUniModuleDao().readByModName(this.primaryId,this.modName,searchParameter);
+        return DaoFactory.getInstance().getPartnerUniModuleDao().readByModName(this.primaryId,this.modName,this.showAll,searchParameter);
     }
 }

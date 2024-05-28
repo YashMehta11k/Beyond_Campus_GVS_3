@@ -23,7 +23,8 @@ public class DeleteSingleModuleOfPartnerUni extends AbstractDeleteRelationState<
 
     @Override
     protected NoContentResult deleteModel(){
-        return DaoFactory.getInstance().getPartnerUniModuleDao().deleteRelation(this.primaryId,this.modelIdToDelete);
+        DaoFactory.getInstance().getPartnerUniModuleDao().deleteRelationsToSecondary(this.modelIdToDelete);
+        return DaoFactory.getInstance().getModuleDao().delete(this.modelIdToDelete);
     }
 
     @Override

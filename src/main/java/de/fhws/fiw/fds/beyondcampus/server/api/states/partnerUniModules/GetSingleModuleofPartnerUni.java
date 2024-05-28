@@ -48,24 +48,15 @@ public class GetSingleModuleofPartnerUni extends AbstractGetRelationState<Respon
                 this.primaryId
                 );
 
-        if(isPartnerUniLinkedToThisModule()){
+        addLink(PartnerUniModuleUri.REL_PATH_ID,
+                PartnerUniModuleRelTypes.UPDATE_SINGLE_MODULE,
+                getAcceptRequestHeader(),
+                this.primaryId,this.requestedId);
 
-            addLink(PartnerUniModuleUri.REL_PATH_ID,
-                    PartnerUniModuleRelTypes.UPDATE_SINGLE_MODULE,
-                    getAcceptRequestHeader(),
-                    this.primaryId,this.requestedId);
-
-            addLink(PartnerUniModuleUri.REL_PATH_ID,
-                    PartnerUniModuleRelTypes.DELETE_LINK_FROM_PARTNERUNI_TO_MODULE,
-                    getAcceptRequestHeader(),
-                    this.primaryId,this.requestedId);
-        }else{
-
-            addLink(PartnerUniModuleUri.REL_PATH_ID,
-                    PartnerUniModuleRelTypes.CREATE_LINK_FROM_PARTNERUNI_TO_MODULE,
-                    getAcceptRequestHeader(),
-                    this.primaryId,this.requestedId);
-        }
+        addLink(PartnerUniModuleUri.REL_PATH_ID,
+                PartnerUniModuleRelTypes.DELETE_MODULE_FROM_PARTNERUNI,
+                getAcceptRequestHeader(),
+                this.primaryId,this.requestedId);
     }
 
     private boolean isPartnerUniLinkedToThisModule(){

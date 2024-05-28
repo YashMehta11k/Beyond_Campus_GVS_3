@@ -32,33 +32,12 @@ public class ModuleJerseyService extends AbstractJerseyService {
         }
     }
 
-    @POST
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response createSingleModule(final Module moduleModel) {
-        try {
-            return new PostNewModule( this.serviceContext, moduleModel ).execute( );
-        } catch (SuttonWebAppException e) {
-            throw new WebApplicationException(Response.status(e.getStatus().getCode()).entity(e.getExceptionMessage()).build());
-        }
-    }
-
     @PUT
     @Path("{id: \\d+}")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response updateSingleModule(@PathParam("id") final long id, final Module moduleModel) {
         try {
             return new PutSingleModule( this.serviceContext, id, moduleModel ).execute( );
-        } catch (SuttonWebAppException e) {
-            throw new WebApplicationException(Response.status(e.getStatus().getCode()).entity(e.getExceptionMessage()).build());
-        }
-    }
-
-    @DELETE
-    @Path("{id: \\d+}")
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response deleteSingleModule(@PathParam("id") final long id) {
-        try {
-            return new DeleteSingleModule( this.serviceContext, id ).execute( );
         } catch (SuttonWebAppException e) {
             throw new WebApplicationException(Response.status(e.getStatus().getCode()).entity(e.getExceptionMessage()).build());
         }

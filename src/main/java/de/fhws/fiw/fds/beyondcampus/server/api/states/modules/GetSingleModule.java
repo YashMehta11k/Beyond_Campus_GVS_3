@@ -1,6 +1,8 @@
 package de.fhws.fiw.fds.beyondcampus.server.api.states.modules;
 
 import de.fhws.fiw.fds.beyondcampus.server.api.models.Module;
+import de.fhws.fiw.fds.beyondcampus.server.api.states.partnerUniModules.PartnerUniModuleRelTypes;
+import de.fhws.fiw.fds.beyondcampus.server.api.states.partnerUniModules.PartnerUniModuleUri;
 import de.fhws.fiw.fds.beyondcampus.server.database.DaoFactory;
 import de.fhws.fiw.fds.sutton.server.api.caching.CachingUtils;
 import de.fhws.fiw.fds.sutton.server.api.caching.EtagGenerator;
@@ -47,8 +49,8 @@ public class GetSingleModule extends AbstractGetState<Response, Module> {
                 getAcceptRequestHeader(),
                 this.requestedId);
 
-        addLink(ModuleUri.REL_PATH_ID,
-                ModuleRelTypes.DELETE_SINGLE_MODULE,
+        addLink(PartnerUniModuleUri.REL_PATH_ID,
+                PartnerUniModuleRelTypes.DELETE_MODULE_FROM_PARTNERUNI,
                 getAcceptRequestHeader(),
                 this.requestedId);
     }

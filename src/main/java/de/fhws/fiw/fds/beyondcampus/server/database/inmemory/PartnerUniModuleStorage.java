@@ -22,12 +22,19 @@ public class PartnerUniModuleStorage extends AbstractInMemoryRelationStorage<Mod
     }
 
     @Override
-    public CollectionModelResult<Module> readByModName(long primaryId, String modName,
+    public CollectionModelResult<Module> readByModName(long primaryId, String modName,boolean showAll,
                                                        SearchParameter searchParameter){
-        return InMemoryPaging.page(
-                this.readAllLinkedByPredicate(primaryId,(p) -> modName.isEmpty() || p.getModName().equals(modName)),
-                searchParameter.getOffset(),searchParameter.getSize()
-        );
+        if(showAll){
+            return InMemoryPaging.page(
+                    this.readAllByPredicate(primaryId,(p) -> modName.isEmpty() || p.getModName().equals(modName)),
+                    searchParameter.getOffset(),searchParameter.getSize()
+            );
+        }else{
+            return InMemoryPaging.page(
+                    this.readAllLinkedByPredicate(primaryId,(p) -> modName.isEmpty() || p.getModName().equals(modName)),
+                    searchParameter.getOffset(),searchParameter.getSize()
+            );
+        }
     }
 
     @Override
