@@ -23,6 +23,10 @@ public class GetDispatcher extends AbstractGetDispatcherState<Response> {
                 PartnerUniRelTypes.GET_ALL_PARTNERUNIS,
                 getAcceptRequestHeader());
 
+        addLink(PartnerUniUri.REL_PATH,
+                PartnerUniRelTypes.CREATE_PARTNERUNI,
+                getAcceptRequestHeader());
+
         addLink(ModuleUri.REL_PATH,
                 ModuleRelTypes.GET_ALL_MODULES,
                 getAcceptRequestHeader());
