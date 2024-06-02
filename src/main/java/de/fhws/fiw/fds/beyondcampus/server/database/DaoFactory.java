@@ -22,7 +22,7 @@ public class DaoFactory {
     private DaoFactory(){
         this.partnerUniDao=new PartnerUniStorage();
         this.moduleDao=new ModuleStorage();
-        this.partnerUniModuleDao=new PartnerUniModuleStorage(this.moduleDao);
+        this.partnerUniModuleDao=new PartnerUniModuleStorage();
     }
 
     public PartnerUniDao getPartnerUniDao(){

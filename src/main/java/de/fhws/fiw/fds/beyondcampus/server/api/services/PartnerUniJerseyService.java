@@ -2,8 +2,9 @@ package de.fhws.fiw.fds.beyondcampus.server.api.services;
 
 import de.fhws.fiw.fds.beyondcampus.server.api.models.Module;
 import de.fhws.fiw.fds.beyondcampus.server.api.models.PartnerUni;
-import de.fhws.fiw.fds.beyondcampus.server.api.queries.QueryByModName;
-import de.fhws.fiw.fds.beyondcampus.server.api.queries.QueryByUniName;
+import de.fhws.fiw.fds.beyondcampus.server.api.queries.QueryByModOfferedInSem;
+import de.fhws.fiw.fds.beyondcampus.server.api.queries.QueryByUniNameAndCountry;
+import de.fhws.fiw.fds.beyondcampus.server.api.queries.QueryPartnerUniSearch;
 import de.fhws.fiw.fds.beyondcampus.server.api.states.partnerUniModules.*;
 import de.fhws.fiw.fds.beyondcampus.server.api.states.partnerunis.*;
 import de.fhws.fiw.fds.sutton.server.api.serviceAdapters.Exceptions.SuttonWebAppException;
@@ -11,6 +12,8 @@ import de.fhws.fiw.fds.sutton.server.api.services.AbstractJerseyService;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+
+import java.util.Objects;
 
 @Path("partnerunis")
 public class PartnerUniJerseyService extends AbstractJerseyService {
@@ -24,15 +27,23 @@ public class PartnerUniJerseyService extends AbstractJerseyService {
     public Response getAllPartnerUnis(
             @DefaultValue("") @QueryParam("uniName") final String uniName,
             @DefaultValue("") @QueryParam("uniCountry") final String uniCountry,
-            @DefaultValue("") @QueryParam("departmentName") final String departmentName,
+            @DefaultValue("") @QueryParam("search") final String search,
             @DefaultValue("0") @QueryParam("offset") int offset,
-            @DefaultValue("20") @QueryParam("size") int size){
+            @DefaultValue("10") @QueryParam("size") int size,
+            @QueryParam("order") final String order){
 
-        try {
-            return new GetAllPartnerUnis(
-                    this.serviceContext,
-                    new QueryByUniName<>(uniName, offset, size)
-            ).execute();
+        try{
+            if(!Objects.equals(search, "")){
+                return new GetAllPartnerUnis(
+                        this.serviceContext,
+                        new QueryPartnerUniSearch<>(search,offset, size)
+                ).execute();
+            }else {
+                return new GetAllPartnerUnis(
+                        this.serviceContext,
+                        new QueryByUniNameAndCountry<>(uniName, uniCountry, offset, size)
+                ).execute();
+            }
         }catch (SuttonWebAppException e){
             throw new WebApplicationException(e.getExceptionMessage(),e.getStatus().getCode());
         }
@@ -86,12 +97,12 @@ public class PartnerUniJerseyService extends AbstractJerseyService {
     @Path("{partneruniId:\\d+}/modules")
     @Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
     public Response getModulesOfPartnerUni(@PathParam("partneruniId") final long partneruniId,
-                                           @DefaultValue("") @QueryParam("modName") final String modName,
+                                           @DefaultValue("") @QueryParam("offeredInSem") final String offeredInSem,
                                            @DefaultValue("false") @QueryParam("showAll") final boolean showAll,
                                            @DefaultValue("0") @QueryParam("offset") int offset,
                                            @DefaultValue("20") @QueryParam("size") int size){
         try {
-            return new GetAllModulesofPartnerUni(this.serviceContext,partneruniId,new QueryByModName<>(partneruniId,modName,showAll,offset,size)).execute();
+            return new GetAllModulesofPartnerUni(this.serviceContext,partneruniId,new QueryByModOfferedInSem<>(partneruniId,offeredInSem,showAll,offset,size)).execute();
         }catch (SuttonWebAppException e){
             throw new WebApplicationException(Response.status(e.getStatus().getCode()).entity(e.getExceptionMessage()).build());
         }

@@ -1,6 +1,7 @@
 package de.fhws.fiw.fds.beyondcampus.server.database.inmemory;
 
 import de.fhws.fiw.fds.beyondcampus.server.api.models.Module;
+import de.fhws.fiw.fds.beyondcampus.server.database.DaoFactory;
 import de.fhws.fiw.fds.beyondcampus.server.database.ModuleDao;
 import de.fhws.fiw.fds.beyondcampus.server.database.PartnerUniModuleDao;
 import de.fhws.fiw.fds.sutton.server.database.IDatabaseAccessObject;
@@ -10,28 +11,32 @@ import de.fhws.fiw.fds.sutton.server.database.inmemory.InMemoryPaging;
 import de.fhws.fiw.fds.sutton.server.database.results.CollectionModelResult;
 
 public class PartnerUniModuleStorage extends AbstractInMemoryRelationStorage<Module> implements PartnerUniModuleDao {
-    final private ModuleDao moduleStorage;
-
-    public PartnerUniModuleStorage(ModuleDao moduleStorage){
-        this.moduleStorage=moduleStorage;
+    public PartnerUniModuleStorage(){
+        super();
+        for(int index=0;index<10;index++) {
+            this.storage.put(1L,index+1L);
+        }
+        for(int index=10;index<40;index++) {
+            this.storage.put(index-9+1L,index+1L);
+        }
     }
 
     @Override
     protected IDatabaseAccessObject<Module> getSecondaryStorage(){
-        return this.moduleStorage;
+        return DaoFactory.getInstance().getModuleDao();
     }
 
     @Override
-    public CollectionModelResult<Module> readByModName(long primaryId, String modName,boolean showAll,
+    public CollectionModelResult<Module> readByOfferedInSem(long primaryId, String offeredInSem,boolean showAll,
                                                        SearchParameter searchParameter){
         if(showAll){
             return InMemoryPaging.page(
-                    this.readAllByPredicate(primaryId,(p) -> modName.isEmpty() || p.getModName().equals(modName)),
+                    this.readAllByPredicate(primaryId,(p) -> offeredInSem.isEmpty() || p.getOfferedInSem().equals(Module.OfferedInSem.valueOf(offeredInSem))),
                     searchParameter.getOffset(),searchParameter.getSize()
             );
         }else{
             return InMemoryPaging.page(
-                    this.readAllLinkedByPredicate(primaryId,(p) -> modName.isEmpty() || p.getModName().equals(modName)),
+                    this.readAllLinkedByPredicate(primaryId,(p) -> offeredInSem.isEmpty() || p.getOfferedInSem().equals(Module.OfferedInSem.valueOf(offeredInSem))),
                     searchParameter.getOffset(),searchParameter.getSize()
             );
         }

@@ -8,30 +8,30 @@ import de.fhws.fiw.fds.sutton.server.database.DatabaseException;
 import de.fhws.fiw.fds.sutton.server.database.SearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.results.CollectionModelResult;
 
-public class QueryByModName<R> extends AbstractRelationQuery<R, Module> {
+public class QueryByModOfferedInSem<R> extends AbstractRelationQuery<R, Module> {
 
-    private String modName;
+    private String offeredInSem;
     private boolean showAll;
 
     private int waitingTime;
 
-    public QueryByModName(long primaryId,String modName,boolean showAll,int offset,int size){
+    public QueryByModOfferedInSem(long primaryId, String offeredInSem, boolean showAll, int offset, int size){
         super(primaryId);
-        this.modName=modName;
+        this.offeredInSem=offeredInSem;
         this.showAll=showAll;
         this.pagingBehavior=new PagingBehaviorUsingOffsetSize<>(offset,size);
     }
 
-    public String getModName() {
-        return modName;
+    public String getOfferedInSem() {
+        return offeredInSem;
     }
 
-    public void setModName(String modName) {
-        this.modName = modName;
+    public void setOfferedInSem(String offeredInSem) {
+        this.offeredInSem = offeredInSem;
     }
 
     @Override
     protected CollectionModelResult<Module> doExecuteQuery(SearchParameter searchParameter) throws DatabaseException{
-        return DaoFactory.getInstance().getPartnerUniModuleDao().readByModName(this.primaryId,this.modName,this.showAll,searchParameter);
+        return DaoFactory.getInstance().getPartnerUniModuleDao().readByOfferedInSem(this.primaryId,this.offeredInSem,this.showAll,searchParameter);
     }
 }

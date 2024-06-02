@@ -7,8 +7,10 @@ import de.fhws.fiw.fds.sutton.server.database.results.CollectionModelResult;
 
 public interface PartnerUniDao extends IDatabaseAccessObject<PartnerUni> {
 
-    CollectionModelResult<PartnerUni> readByUniName(String uniName,
+    CollectionModelResult<PartnerUni> readByUniNameAndCountry(String uniName,String uniCountry,
                                                     SearchParameter searchParameter);
+
+    CollectionModelResult<PartnerUni>searchPartnerUni(String search,SearchParameter searchParameter);
 
     void resetDatabase();
 }
