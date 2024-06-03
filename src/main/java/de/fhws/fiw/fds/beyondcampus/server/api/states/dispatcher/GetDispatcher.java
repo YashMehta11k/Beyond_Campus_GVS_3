@@ -1,7 +1,5 @@
 package de.fhws.fiw.fds.beyondcampus.server.api.states.dispatcher;
 
-import de.fhws.fiw.fds.beyondcampus.server.api.states.modules.ModuleRelTypes;
-import de.fhws.fiw.fds.beyondcampus.server.api.states.modules.ModuleUri;
 import de.fhws.fiw.fds.beyondcampus.server.api.states.partnerunis.PartnerUniRelTypes;
 import de.fhws.fiw.fds.beyondcampus.server.api.states.partnerunis.PartnerUniUri;
 import de.fhws.fiw.fds.sutton.server.api.serviceAdapters.responseAdapter.JerseyResponse;
@@ -27,8 +25,5 @@ public class GetDispatcher extends AbstractGetDispatcherState<Response> {
                 PartnerUniRelTypes.CREATE_PARTNERUNI,
                 getAcceptRequestHeader());
 
-        addLink(ModuleUri.REL_PATH,
-                ModuleRelTypes.GET_ALL_MODULES,
-                getAcceptRequestHeader());
     }
 }
