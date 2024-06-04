@@ -4,7 +4,6 @@ import de.fhws.fiw.fds.sutton.server.api.AbstractJerseyApplication;
 
 import de.fhws.fiw.fds.beyondcampus.server.api.services.DispatcherJerseyService;
 import de.fhws.fiw.fds.beyondcampus.server.api.services.PartnerUniJerseyService;
-import de.fhws.fiw.fds.beyondcampus.server.api.services.ModuleJerseyService;
 import jakarta.ws.rs.ApplicationPath;
 
 import java.util.HashSet;
@@ -18,7 +17,6 @@ public class BeyondCampusJerseyApplication extends AbstractJerseyApplication{
         final Set<Class<?>> returnValue = new HashSet<>();
 
         returnValue.add(PartnerUniJerseyService.class);
-        returnValue.add(ModuleJerseyService.class);
         returnValue.add(DispatcherJerseyService.class);
 
         return returnValue;

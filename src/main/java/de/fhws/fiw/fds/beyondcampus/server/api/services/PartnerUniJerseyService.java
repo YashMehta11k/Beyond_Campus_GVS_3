@@ -12,7 +12,6 @@ import de.fhws.fiw.fds.sutton.server.api.services.AbstractJerseyService;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-
 import java.util.Objects;
 
 @Path("partnerunis")
@@ -27,23 +26,17 @@ public class PartnerUniJerseyService extends AbstractJerseyService {
     public Response getAllPartnerUnis(
             @DefaultValue("") @QueryParam("uniName") final String uniName,
             @DefaultValue("") @QueryParam("uniCountry") final String uniCountry,
-            @DefaultValue("") @QueryParam("search") final String search,
+            @DefaultValue("+uniname") @QueryParam("order") final String order,
             @DefaultValue("0") @QueryParam("offset") int offset,
-            @DefaultValue("10") @QueryParam("size") int size,
-            @QueryParam("order") final String order){
+            @DefaultValue("10") @QueryParam("size") int size
+            ){
 
         try{
-            if(!Objects.equals(search, "")){
                 return new GetAllPartnerUnis(
                         this.serviceContext,
-                        new QueryPartnerUniSearch<>(search,offset, size)
+                        new QueryByUniNameAndCountry<>(uniName,uniCountry,order, offset, size)
                 ).execute();
-            }else {
-                return new GetAllPartnerUnis(
-                        this.serviceContext,
-                        new QueryByUniNameAndCountry<>(uniName, uniCountry, offset, size)
-                ).execute();
-            }
+
         }catch (SuttonWebAppException e){
             throw new WebApplicationException(e.getExceptionMessage(),e.getStatus().getCode());
         }

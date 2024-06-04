@@ -6,9 +6,13 @@ import de.fhws.fiw.fds.sutton.server.database.SearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.inmemory.AbstractInMemoryStorage;
 import de.fhws.fiw.fds.sutton.server.database.inmemory.InMemoryPaging;
 import de.fhws.fiw.fds.sutton.server.database.results.CollectionModelResult;
+import de.fhws.fiw.fds.beyondcampus.server.api.comparators.PartnerUniComparator;
 
 import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class PartnerUniStorage extends AbstractInMemoryStorage<PartnerUni> implements PartnerUniDao {
@@ -33,6 +37,23 @@ public class PartnerUniStorage extends AbstractInMemoryStorage<PartnerUni> imple
                 bySearch(search),
                 searchParameter
         ),searchParameter.getOffset(),searchParameter.getSize());
+    }
+
+    private Comparator<PartnerUni> getComparator(String orderAttribute) {
+        switch (orderAttribute) {
+            case "+uniname":
+                return Comparator.comparing(PartnerUni::getUniName)
+                        .thenComparing(PartnerUni::getUniCountry);
+            case "-uniname":
+                return Comparator.comparing(PartnerUni::getUniName)
+                        .thenComparing(PartnerUni::getUniCountry)
+                        .reversed();
+            case "closestSem":
+                return Comparator.comparing(PartnerUni::getUpcomingAutumnSem)
+                        .thenComparing(PartnerUni::getUpcomingSpringSem);
+            default:
+                return Comparator.comparing(PartnerUni::getId);
+        }
     }
 
     public void resetDatabase() {
