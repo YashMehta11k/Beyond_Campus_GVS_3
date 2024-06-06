@@ -5,7 +5,7 @@ public interface PartnerUniModuleRelTypes {
     String CREATE_MODULE = "createModuleOfPartnerUni";
     String GET_SINGLE_MODULE = "getModuleOfPartnerUni";
     String GET_ALL_LINKED_MODULES = "getAllModulesOfPartnerUni";
-    String GET_ALL_MODULES = "getAllModulesOfAllPartnerUnis";
     String UPDATE_SINGLE_MODULE = "updateModuleOfPartnerUni";
     String DELETE_MODULE_FROM_PARTNERUNI = "deleteModuleOfPartnerUni";
+    String FILTER_BY_SEMESTER="filterModulesBySemester";
 }

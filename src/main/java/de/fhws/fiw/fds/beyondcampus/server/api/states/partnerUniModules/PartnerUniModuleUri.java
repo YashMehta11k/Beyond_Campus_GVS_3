@@ -8,7 +8,7 @@ public interface PartnerUniModuleUri {
     String PATH_ELEMENT = "partnerunis/{id}/modules";
 
     String REL_PATH = Start.CONTEXT_PATH + "/api/" + PATH_ELEMENT;
-    String REL_PATH_SHOW_ALL = Start.CONTEXT_PATH + "/api/" + PATH_ELEMENT + "?" + SHOW_ALL_PARAMETER + "=true";
     String REL_PATH_SHOW_ONLY_LINKED = Start.CONTEXT_PATH + "/api/" + PATH_ELEMENT + "?" + SHOW_ALL_PARAMETER + "=false";
     String REL_PATH_ID = REL_PATH + "/{id}";
+    String FILTER_BY_SEM=REL_PATH+"/?offeredInSem={Autumn or Spring}";
 }

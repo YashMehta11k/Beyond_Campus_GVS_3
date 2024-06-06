@@ -10,7 +10,7 @@ public class ModuleStorage extends AbstractInMemoryStorage<Module> implements Mo
 
     public ModuleStorage(){
         super();
-        populateData(40);
+        populateData(100);
     }
 
     private void populateData( final int numberOfElements )
@@ -25,6 +25,9 @@ public class ModuleStorage extends AbstractInMemoryStorage<Module> implements Mo
         }else{
             sem=Module.OfferedInSem.Spring;
         }
-        create(new Module("M"+index,"Dr.P"+index,4+index, sem));
+        create(new Module("M"+index,
+                "Dr.P"+index,
+                4+index,
+                sem));
     }
 }

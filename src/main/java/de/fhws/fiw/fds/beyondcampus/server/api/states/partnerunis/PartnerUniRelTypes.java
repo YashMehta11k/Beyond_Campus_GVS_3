@@ -7,8 +7,9 @@ public interface PartnerUniRelTypes {
     String GET_SINGLE_PARTNERUNI="getPartnerUni";
     String UPDATE_SINGLE_PARTNERUNI="updatePartnerUni";
     String DELETE_SINGLE_PARTNERUNI="deletePartnerUni";
-    String FILTER_BY_NAME_AND_COUNTRY="filterPartnerUniByNameAndCountry";
-    String FILTER_BY_NAME_ORDER_BY_UNINAME = "filterPartnerUnisByNamesOrderByNames";
-    String FILTER_BY_NAME_ORDER_BY_SEMSTART = "filterPartnerUnisByNamesOrderBySemStart";
-
+    String URI_TEMPLATE="uriTemplate";
+    String FILTER_PARTNERUNIS="filterPartnerUnis";
+    String SEARCH_PARTNERUNIS="searchPartnerUnis";
+    String ORDER_PARTNERUNIS="orderPartnerUnis";
+    String REVERSE_ORDER="reverseOrder";
 }

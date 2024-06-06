@@ -22,8 +22,8 @@ public class GetAllModulesofPartnerUni extends AbstractGetCollectionRelationStat
                 getAcceptRequestHeader(),
                 this.primaryId);
 
-        addLink(PartnerUniModuleUri.REL_PATH_SHOW_ALL,
-                PartnerUniModuleRelTypes.GET_ALL_MODULES,
+        addLink(PartnerUniModuleUri.FILTER_BY_SEM,
+                PartnerUniModuleRelTypes.FILTER_BY_SEMESTER,
                 getAcceptRequestHeader(),
                 this.primaryId);
     }

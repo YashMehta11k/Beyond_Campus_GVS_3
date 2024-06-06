@@ -11,14 +11,10 @@ import de.fhws.fiw.fds.sutton.server.database.results.CollectionModelResult;
 public class QueryByModOfferedInSem<R> extends AbstractRelationQuery<R, Module> {
 
     private String offeredInSem;
-    private boolean showAll;
 
-    private int waitingTime;
-
-    public QueryByModOfferedInSem(long primaryId, String offeredInSem, boolean showAll, int offset, int size){
+    public QueryByModOfferedInSem(long primaryId, String offeredInSem, int offset, int size){
         super(primaryId);
         this.offeredInSem=offeredInSem;
-        this.showAll=showAll;
         this.pagingBehavior=new PagingBehaviorUsingOffsetSize<>(offset,size);
     }
 
@@ -30,8 +26,9 @@ public class QueryByModOfferedInSem<R> extends AbstractRelationQuery<R, Module> 
         this.offeredInSem = offeredInSem;
     }
 
+
     @Override
     protected CollectionModelResult<Module> doExecuteQuery(SearchParameter searchParameter) throws DatabaseException{
-        return DaoFactory.getInstance().getPartnerUniModuleDao().readByOfferedInSem(this.primaryId,this.offeredInSem,this.showAll,searchParameter);
+        return DaoFactory.getInstance().getPartnerUniModuleDao().readByOfferedInSem(this.primaryId,this.offeredInSem,searchParameter);
     }
 }

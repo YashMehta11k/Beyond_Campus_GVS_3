@@ -13,11 +13,11 @@ import de.fhws.fiw.fds.sutton.server.database.results.CollectionModelResult;
 public class PartnerUniModuleStorage extends AbstractInMemoryRelationStorage<Module> implements PartnerUniModuleDao {
     public PartnerUniModuleStorage(){
         super();
-        for(int index=0;index<10;index++) {
+        for(int index=0;index<50;index++) {
             this.storage.put(1L,index+1L);
         }
-        for(int index=10;index<40;index++) {
-            this.storage.put(index-9+1L,index+1L);
+        for(int index=50;index<75;index++) {
+            this.storage.put(index-49+1L,index+1L);
         }
     }
 
@@ -27,19 +27,12 @@ public class PartnerUniModuleStorage extends AbstractInMemoryRelationStorage<Mod
     }
 
     @Override
-    public CollectionModelResult<Module> readByOfferedInSem(long primaryId, String offeredInSem,boolean showAll,
-                                                       SearchParameter searchParameter){
-        if(showAll){
-            return InMemoryPaging.page(
-                    this.readAllByPredicate(primaryId,(p) -> offeredInSem.isEmpty() || p.getOfferedInSem().equals(Module.OfferedInSem.valueOf(offeredInSem))),
-                    searchParameter.getOffset(),searchParameter.getSize()
-            );
-        }else{
+    public CollectionModelResult<Module> readByOfferedInSem(long primaryId, String offeredInSem,SearchParameter searchParameter){
+
             return InMemoryPaging.page(
                     this.readAllLinkedByPredicate(primaryId,(p) -> offeredInSem.isEmpty() || p.getOfferedInSem().equals(Module.OfferedInSem.valueOf(offeredInSem))),
                     searchParameter.getOffset(),searchParameter.getSize()
             );
-        }
     }
 
     @Override

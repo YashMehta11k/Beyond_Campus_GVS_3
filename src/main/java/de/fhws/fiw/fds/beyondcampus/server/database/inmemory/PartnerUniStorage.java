@@ -6,7 +6,6 @@ import de.fhws.fiw.fds.sutton.server.database.SearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.inmemory.AbstractInMemoryStorage;
 import de.fhws.fiw.fds.sutton.server.database.inmemory.InMemoryPaging;
 import de.fhws.fiw.fds.sutton.server.database.results.CollectionModelResult;
-import de.fhws.fiw.fds.beyondcampus.server.api.comparators.PartnerUniComparator;
 
 import java.time.LocalDate;
 import java.util.Comparator;
@@ -23,37 +22,63 @@ public class PartnerUniStorage extends AbstractInMemoryStorage<PartnerUni> imple
     }
 
     @Override
-    public CollectionModelResult<PartnerUni> readByUniNameAndCountry(String uniName,String uniCountry,
-                                                           SearchParameter searchParameter){
-        return InMemoryPaging.page(this.readAllByPredicate(
-                byUniNameAndCountry(uniName,uniCountry),
-                searchParameter
-        ),searchParameter.getOffset(),searchParameter.getSize());
+    public CollectionModelResult<PartnerUni> readByUniNameAndCountry(String uniName, String uniCountry, SearchParameter searchParameter) {
+        List<PartnerUni> filteredAndSortedResult = filterAndSortByUniNameAndCountry(uniName, uniCountry, searchParameter);
+
+        CollectionModelResult<PartnerUni> sortedCollectionResult = new CollectionModelResult<>(filteredAndSortedResult);
+        return InMemoryPaging.page(sortedCollectionResult, searchParameter.getOffset(), searchParameter.getSize());
     }
 
     @Override
     public CollectionModelResult<PartnerUni> searchPartnerUni(String search , SearchParameter searchParameter){
-        return InMemoryPaging.page(this.readAllByPredicate(
-                bySearch(search),
-                searchParameter
-        ),searchParameter.getOffset(),searchParameter.getSize());
+        List<PartnerUni> filteredAndSortedResult = filterAndSortBySearch(search, searchParameter);
+
+        CollectionModelResult<PartnerUni> sortedCollectionResult = new CollectionModelResult<>(filteredAndSortedResult);
+        return InMemoryPaging.page(sortedCollectionResult, searchParameter.getOffset(), searchParameter.getSize());
+    }
+
+    private List<PartnerUni> filterAndSortByUniNameAndCountry(String uniName, String uniCountry, SearchParameter searchParameter) {
+        return this.storage.values()
+                .stream()
+                .filter(byUniNameAndCountry(uniName, uniCountry))
+                .sorted(getComparator(searchParameter.getOrderByAttribute()))
+                .collect(Collectors.toList());
+    }
+
+    private List<PartnerUni> filterAndSortBySearch(String search, SearchParameter searchParameter) {
+        return this.storage.values()
+                .stream()
+                .filter(bySearch(search))
+                .sorted(getComparator(searchParameter.getOrderByAttribute()))
+                .collect(Collectors.toList());
+    }
+
+    private Predicate<PartnerUni> byUniNameAndCountry(String uniName,String uniCountry){
+        return p -> (uniName.isEmpty() || p.getUniName().equals(uniName)) && (uniCountry.isEmpty() || p.getUniCountry().equals(uniCountry));
+    }
+
+    private Predicate<PartnerUni> bySearch(String search){
+        return p -> search.isEmpty() || p.getUniName().contains(search) || p.getUniCountry().contains(search) || p.getUniContactPerson().contains(search)|| p.getDepartmentName().contains(search) || p.getDepartmentWebsite().contains(search);
     }
 
     private Comparator<PartnerUni> getComparator(String orderAttribute) {
-        switch (orderAttribute) {
-            case "+uniname":
-                return Comparator.comparing(PartnerUni::getUniName)
-                        .thenComparing(PartnerUni::getUniCountry);
-            case "-uniname":
-                return Comparator.comparing(PartnerUni::getUniName)
-                        .thenComparing(PartnerUni::getUniCountry)
-                        .reversed();
-            case "closestSem":
-                return Comparator.comparing(PartnerUni::getUpcomingAutumnSem)
-                        .thenComparing(PartnerUni::getUpcomingSpringSem);
+        boolean isDesc = orderAttribute.startsWith("-");
+        String attribute = orderAttribute.substring(1);
+
+        Comparator<PartnerUni> comparator;
+
+        switch (attribute) {
+            case "uniname":
+                comparator = Comparator.comparing(PartnerUni::getUniName);
+                break;
+            case "semStart":
+                comparator = Comparator.comparing(PartnerUni::getUpcomingAutumnSem);
+                break;
             default:
-                return Comparator.comparing(PartnerUni::getId);
+                comparator = Comparator.comparing(PartnerUni::getId);
         }
+
+        return isDesc ? comparator.reversed() : comparator;
     }
 
     public void resetDatabase() {
@@ -75,13 +100,5 @@ public class PartnerUniStorage extends AbstractInMemoryStorage<PartnerUni> imple
                 10+index,
                 LocalDate.of(2024+index,3,1),
                 LocalDate.of(2024+index,9,1)));
-    }
-
-    private Predicate<PartnerUni> byUniNameAndCountry(String uniName,String uniCountry){
-        return p -> (uniName.isEmpty() || p.getUniName().equals(uniName)) && (uniCountry.isEmpty() || p.getUniCountry().equals(uniCountry));
-    }
-
-    private Predicate<PartnerUni> bySearch(String search){
-        return p -> search.isEmpty() || p.getUniName().startsWith(search) || p.getUniCountry().startsWith(search) || p.getUniContactPerson().startsWith(search)|| p.getDepartmentName().startsWith(search) || p.getDepartmentWebsite().startsWith(search);
     }
 }

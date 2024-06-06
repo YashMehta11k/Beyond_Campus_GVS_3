@@ -43,6 +43,27 @@ public class PartnerUniJerseyService extends AbstractJerseyService {
     }
 
     @GET
+    @Path("search")
+    @Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+    public Response getAllPartnerUnis(
+            @DefaultValue("") @QueryParam("search") final String search,
+            @DefaultValue("0") @QueryParam("offset") int offset,
+            @DefaultValue("10") @QueryParam("size") int size,
+            @DefaultValue("+uniname") @QueryParam("order") final String order
+    ){
+
+        try{
+            return new GetAllPartnerUnis(
+                    this.serviceContext,
+                    new QueryPartnerUniSearch<>(search,order, offset, size)
+            ).execute();
+
+        }catch (SuttonWebAppException e){
+            throw new WebApplicationException(e.getExceptionMessage(),e.getStatus().getCode());
+        }
+    }
+
+    @GET
     @Path("{id:\\d+}")
     @Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
     public Response getSinglePartnerUni(@PathParam("id") final long id){
@@ -91,11 +112,12 @@ public class PartnerUniJerseyService extends AbstractJerseyService {
     @Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
     public Response getModulesOfPartnerUni(@PathParam("partneruniId") final long partneruniId,
                                            @DefaultValue("") @QueryParam("offeredInSem") final String offeredInSem,
-                                           @DefaultValue("false") @QueryParam("showAll") final boolean showAll,
                                            @DefaultValue("0") @QueryParam("offset") int offset,
-                                           @DefaultValue("20") @QueryParam("size") int size){
+                                           @DefaultValue("10") @QueryParam("size") int size){
         try {
-            return new GetAllModulesofPartnerUni(this.serviceContext,partneruniId,new QueryByModOfferedInSem<>(partneruniId,offeredInSem,showAll,offset,size)).execute();
+            return new GetAllModulesofPartnerUni(this.serviceContext,
+                    partneruniId,
+                    new QueryByModOfferedInSem<>(partneruniId,offeredInSem,offset,size)).execute();
         }catch (SuttonWebAppException e){
             throw new WebApplicationException(Response.status(e.getStatus().getCode()).entity(e.getExceptionMessage()).build());
         }

@@ -12,12 +12,14 @@ public class QueryByUniNameAndCountry<R> extends AbstractQuery<R, PartnerUni> {
 
     private String uniName;
     private String uniCountry;
+    private boolean isSortDesc;
     private String order;
 
     public QueryByUniNameAndCountry(String uniName,String uniCountry,String order ,int offset, int size){
         this.uniName=uniName;
         this.uniCountry=uniCountry;
         this.order=order;
+        this.isSortDesc=order.startsWith("-");
         this.pagingBehavior=new PagingBehaviorUsingOffsetSize<>(offset,size);
     }
 
@@ -27,6 +29,14 @@ public class QueryByUniNameAndCountry<R> extends AbstractQuery<R, PartnerUni> {
 
     public String getUniCountry() {
         return uniCountry;
+    }
+
+    public boolean isSortDesc() {
+        return isSortDesc;
+    }
+
+    public String getOrderAttribute(){
+        return this.order;
     }
 
     public void setUniCountry(String uniCountry) {
@@ -41,39 +51,10 @@ public class QueryByUniNameAndCountry<R> extends AbstractQuery<R, PartnerUni> {
         return order;
     }
 
-    public String getOrderAttribute(){
-        return this.order.substring(1);
-    }
-
-    public String getOrderAttributeForUniName(){
-        return inverseSortingOrderOrDefault("uniName");
-    }
-
-    public String getOrderAttributeForUniSemStart(){
-        return inverseSortingOrderOrDefault("semStart");
-    }
-
-
     @Override
     protected CollectionModelResult<PartnerUni> doExecuteQuery(SearchParameter searchParameter) throws DatabaseException {
-        searchParameter.setOrderByAttribute(this.order);
-        return DaoFactory.getInstance().getPartnerUniDao().readByUniNameAndCountry(this.uniName, this.uniCountry,searchParameter);
-    }
-
-    private String inverseSortingOrderOrDefault(String orderAttribute) {
-        if (getOrderAttribute().equals(orderAttribute)) {
-            return inverseSortingOrder();
-        } else {
-            return "+" + orderAttribute;
-        }
-    }
-
-    private String inverseSortingOrder() {
-        if(this.order.startsWith("+")|| this.order.startsWith("%2B")){
-            return "reverseTo: -" + this.order.substring(1);
-        }else{
-            return "reverseTo: +" + this.order.substring(1);
-        }
+        searchParameter.setOrderByAttribute((isSortDesc ? "-" : "+") + this.order);
+        return DaoFactory.getInstance().getPartnerUniDao().readByUniNameAndCountry(this.uniName, this.uniCountry, searchParameter);
     }
 
 }
