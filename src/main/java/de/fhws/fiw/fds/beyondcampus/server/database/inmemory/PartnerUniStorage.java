@@ -16,11 +16,6 @@ import java.util.stream.IntStream;
 
 public class PartnerUniStorage extends AbstractInMemoryStorage<PartnerUni> implements PartnerUniDao {
 
-    public PartnerUniStorage(){
-        super();
-        populateData(50);
-    }
-
     @Override
     public CollectionModelResult<PartnerUni> readByUniNameAndCountry(String uniName, String uniCountry, SearchParameter searchParameter) {
         List<PartnerUni> filteredAndSortedResult = filterAndSortByUniNameAndCountry(uniName, uniCountry, searchParameter);

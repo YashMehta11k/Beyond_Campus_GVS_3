@@ -17,7 +17,6 @@ public class BeyondCampusRestClient extends AbstractRestClient {
     private static final String CREATE_PARTNERUNI="createPartnerUni";
     private static final String UPDATE_PARTNERUNI="updatePartnerUni";
     private static final String DELETE_PARTNERUNI="deletePartnerUni";
-    private static final String GET_ALL_MODULES="getAllModules";
 
     private List<PartnerUniClientModel> currentPartnerUniData;
     private int cursorPartnerUniData =0;
@@ -118,28 +117,24 @@ public class BeyondCampusRestClient extends AbstractRestClient {
         });
     }
 
-    public void updatePartnerUni(int index,PartnerUniClientModel partnerUni) throws IOException{
+    public void updatePartnerUni(PartnerUniClientModel partnerUni) throws IOException{
         if(isUpdatePartnerUniAllowed()){
-            String url=this.currentPartnerUniData.get(index).getSelfLink().getUrl();
+            String url=this.currentPartnerUniData.get(this.cursorPartnerUniData).getSelfLink().getUrl();
             processResponse(this.client.putPartnerUni(url,partnerUni),(response)->{
-                this.currentPartnerUniData.set(index,partnerUni);
+                this.currentPartnerUniData.set(this.cursorPartnerUniData,partnerUni);
                 this.cursorPartnerUniData =0;
             });
-        }else{
-            throw new IllegalStateException();
         }
     }
 
-    public void deletePartnerUni(int index) throws IOException{
+    public void deletePartnerUni() throws IOException{
         if(isDeletePartnerUniAllowed()){
-            String url=this.currentPartnerUniData.get(index).getSelfLink().getUrl();
+            String url=this.currentPartnerUniData.get(this.cursorPartnerUniData).getSelfLink().getUrl();
             processResponse(this.client.deletePartnerUni(url),(response)->{
                 if (this.cursorPartnerUniData >= this.currentPartnerUniData.size()) {
                     this.cursorPartnerUniData = this.currentPartnerUniData.size() - 1;
                 }
             });
-        }else {
-            throw new IllegalStateException();
         }
     }
 }

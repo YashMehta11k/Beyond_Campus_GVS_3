@@ -1,7 +1,6 @@
 package de.fhws.fiw.fds.beyondcampus.server.database.inmemory;
 
 import de.fhws.fiw.fds.beyondcampus.server.api.models.Module;
-import de.fhws.fiw.fds.beyondcampus.server.database.DaoFactory;
 import de.fhws.fiw.fds.beyondcampus.server.database.ModuleDao;
 import de.fhws.fiw.fds.beyondcampus.server.database.PartnerUniModuleDao;
 import de.fhws.fiw.fds.sutton.server.database.IDatabaseAccessObject;
@@ -11,19 +10,15 @@ import de.fhws.fiw.fds.sutton.server.database.inmemory.InMemoryPaging;
 import de.fhws.fiw.fds.sutton.server.database.results.CollectionModelResult;
 
 public class PartnerUniModuleStorage extends AbstractInMemoryRelationStorage<Module> implements PartnerUniModuleDao {
-    public PartnerUniModuleStorage(){
-        super();
-        for(int index=0;index<50;index++) {
-            this.storage.put(1L,index+1L);
-        }
-        for(int index=50;index<75;index++) {
-            this.storage.put(index-49+1L,index+1L);
-        }
+
+    final private ModuleDao moduleDao;
+    public PartnerUniModuleStorage(ModuleDao moduleDao){
+        this.moduleDao = moduleDao;
     }
 
     @Override
     protected IDatabaseAccessObject<Module> getSecondaryStorage(){
-        return DaoFactory.getInstance().getModuleDao();
+        return this.moduleDao;
     }
 
     @Override

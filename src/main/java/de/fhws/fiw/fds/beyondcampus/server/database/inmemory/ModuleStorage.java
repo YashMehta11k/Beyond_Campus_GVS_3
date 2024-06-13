@@ -8,11 +8,6 @@ import java.util.stream.IntStream;
 
 public class ModuleStorage extends AbstractInMemoryStorage<Module> implements ModuleDao {
 
-    public ModuleStorage(){
-        super();
-        populateData(100);
-    }
-
     private void populateData( final int numberOfElements )
     {
         IntStream.range( 0, numberOfElements ).forEach( this::createOneNewModule );
