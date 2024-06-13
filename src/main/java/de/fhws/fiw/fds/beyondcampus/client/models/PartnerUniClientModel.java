@@ -48,6 +48,7 @@ public class PartnerUniClientModel extends AbstractClientModel {
         this.upcomingSpringSem=upcomingSpringSem;
     }
 
+
     public String getUniName() {
         return uniName;
     }

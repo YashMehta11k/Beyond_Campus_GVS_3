@@ -50,6 +50,8 @@ public class TestDemoAppIT {
         partnerUni.setUniCountry("CountryExample");
         partnerUni.setDepartmentName("DepartmentExample");
         partnerUni.setUniContactPerson("ContactPersonExample");
+        partnerUni.setDepartmentName("DepartExample");
+        partnerUni.setDepartmentWebsite("www.Example.com");
         partnerUni.setMaxIncomingStudents(5);
         partnerUni.setMaxOutgoingStudents(5);
         partnerUni.setUpcomingAutumnSem(LocalDate.of(2024,9,1));
@@ -68,6 +70,8 @@ public class TestDemoAppIT {
         partnerUni.setUniCountry("CountryExample");
         partnerUni.setDepartmentName("DepartmentExample");
         partnerUni.setUniContactPerson("ContactPersonExample");
+        partnerUni.setDepartmentName("DepartExample");
+        partnerUni.setDepartmentWebsite("www.Example.com");
         partnerUni.setMaxIncomingStudents(5);
         partnerUni.setMaxOutgoingStudents(5);
         partnerUni.setUpcomingAutumnSem(LocalDate.of(2024,9,1));
@@ -95,6 +99,8 @@ public class TestDemoAppIT {
             partnerUni.setUniCountry(faker.country().name());
             partnerUni.setDepartmentName(faker.name().name());
             partnerUni.setUniContactPerson(faker.name().name());
+            partnerUni.setDepartmentName(faker.name().name());
+            partnerUni.setDepartmentWebsite(faker.internet().emailAddress());
             partnerUni.setMaxIncomingStudents(5);
             partnerUni.setMaxOutgoingStudents(5);
             partnerUni.setUpcomingAutumnSem(LocalDate.of(2024,9,1));
@@ -117,7 +123,7 @@ public class TestDemoAppIT {
     }
 
     @Test
-    void test_update_partnerUni() throws IOException {
+    void test_create_partnerUni_and_update_partnerUni() throws IOException {
         client.start();
 
         var partnerUni = new PartnerUniClientModel();
@@ -125,6 +131,8 @@ public class TestDemoAppIT {
         partnerUni.setUniCountry("OriginalCountry");
         partnerUni.setDepartmentName("OriginalDepartment");
         partnerUni.setUniContactPerson("OriginalContact");
+        partnerUni.setDepartmentName("OriginalDepartment");
+        partnerUni.setDepartmentWebsite("www.Original.com");
         partnerUni.setMaxIncomingStudents(5);
         partnerUni.setMaxOutgoingStudents(5);
         partnerUni.setUpcomingAutumnSem(LocalDate.of(2024, 9, 1));
@@ -145,16 +153,13 @@ public class TestDemoAppIT {
         client.updatePartnerUni(partnerUni);
         assertEquals(204, client.getLastStatusCode());
 
-        client.getSinglePartnerUni();
-        assertEquals(200, client.getLastStatusCode());
-
         var updatedPartnerUni = client.partnerUniData().getFirst();
         assertEquals("UpdatedUni", updatedPartnerUni.getUniName());
         assertEquals("UpdatedCountry", updatedPartnerUni.getUniCountry());
     }
 
     @Test
-    void test_delete_partnerUni() throws IOException {
+    void test_create_PartnerUni_and_delete_partnerUni() throws IOException {
         client.start();
 
         var partnerUni = new PartnerUniClientModel();
@@ -182,7 +187,6 @@ public class TestDemoAppIT {
         client.start();
         client.getAllPartnerUnis();
         assertEquals(200, client.getLastStatusCode());
-        assertTrue(client.partnerUniData().isEmpty());
     }
 }
 

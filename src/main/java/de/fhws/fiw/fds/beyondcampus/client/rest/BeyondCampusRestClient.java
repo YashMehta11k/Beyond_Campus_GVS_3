@@ -58,6 +58,8 @@ public class BeyondCampusRestClient extends AbstractRestClient {
                 this.currentPartnerUniData=Collections.EMPTY_LIST;
                 this.cursorPartnerUniData =0;
             });
+        }else{
+            throw new IllegalStateException();
         }
     }
 
@@ -78,6 +80,11 @@ public class BeyondCampusRestClient extends AbstractRestClient {
 
     public boolean isGetSinglePartnerUniAllowed(){
         return !this.currentPartnerUniData.isEmpty() || isLocationHeaderAvailable();
+    }
+
+    public int extractIdFromUrl(String url) {
+        int lastSlashIndex = url.lastIndexOf('/');
+        return Integer.parseInt(url.substring(lastSlashIndex + 1));
     }
 
     public List<PartnerUniClientModel> partnerUniData(){
@@ -120,6 +127,8 @@ public class BeyondCampusRestClient extends AbstractRestClient {
     public void updatePartnerUni(PartnerUniClientModel partnerUni) throws IOException{
         if(isUpdatePartnerUniAllowed()){
             String url=this.currentPartnerUniData.get(this.cursorPartnerUniData).getSelfLink().getUrl();
+            int id = extractIdFromUrl(url);
+            partnerUni.setId(id);
             processResponse(this.client.putPartnerUni(url,partnerUni),(response)->{
                 this.currentPartnerUniData.set(this.cursorPartnerUniData,partnerUni);
                 this.cursorPartnerUniData =0;
