@@ -57,5 +57,10 @@ public class GetSinglePartnerUni extends AbstractGetState<Response, PartnerUni> 
                 PartnerUniModuleRelTypes.GET_ALL_LINKED_MODULES,
                 getAcceptRequestHeader(),
                 this.requestedId);
+
+        addLink(PartnerUniModuleUri.REL_PATH,
+                PartnerUniModuleRelTypes.CREATE_MODULE,
+                getAcceptRequestHeader(),
+                this.requestedId);
     }
 }

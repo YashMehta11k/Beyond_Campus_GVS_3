@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import de.fhws.fiw.fds.sutton.client.converters.ClientLinkJsonConverter;
 import de.fhws.fiw.fds.sutton.client.model.AbstractClientModel;
 import de.fhws.fiw.fds.sutton.client.utils.Link;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class ModuleClientModel extends AbstractClientModel {
 
@@ -17,10 +18,10 @@ public class ModuleClientModel extends AbstractClientModel {
     private OfferedInSem offeredInSem;
 
     @JsonDeserialize(using = ClientLinkJsonConverter.class)
-    private transient Link selfLinkOnSecond;
+    private Link selfLink;
 
     @JsonDeserialize(using = ClientLinkJsonConverter.class)
-    private transient Link selfLink;
+    private Link selfLinkOnSecond;
 
     public ModuleClientModel() {}
 
@@ -63,6 +64,7 @@ public class ModuleClientModel extends AbstractClientModel {
         this.offeredInSem = offeredInSem;
     }
 
+    @JsonIgnore
     public Link getSelfLinkOnSecond() {
         return selfLinkOnSecond;
     }
@@ -71,6 +73,7 @@ public class ModuleClientModel extends AbstractClientModel {
         this.selfLinkOnSecond = selfLinkOnSecond;
     }
 
+    @JsonIgnore
     public Link getSelfLink() {
         return selfLink;
     }

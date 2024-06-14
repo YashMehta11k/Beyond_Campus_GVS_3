@@ -28,7 +28,7 @@ public class PartnerUniClientModel extends AbstractClientModel {
     private Link selfLink;
 
     @JsonDeserialize(using = ClientLinkJsonConverter.class)
-    private Link module;
+    private Link modules;
 
     public PartnerUniClientModel() {}
 
@@ -132,11 +132,11 @@ public class PartnerUniClientModel extends AbstractClientModel {
 
     @JsonIgnore
     public Link getModule(){
-        return module;
+        return modules;
     }
 
-    public void setModule(Link module){
-        this.module=module;
+    public void setModule(Link modules){
+        this.modules=modules;
     }
 
     @Override

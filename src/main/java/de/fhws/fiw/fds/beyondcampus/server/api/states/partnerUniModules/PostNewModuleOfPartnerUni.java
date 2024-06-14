@@ -26,5 +26,10 @@ public class PostNewModuleOfPartnerUni extends AbstractPostRelationState<Respons
                 getAcceptRequestHeader(),
                 this.primaryId, this.modelToStore.getId());
 
+        addLink(PartnerUniModuleUri.REL_PATH,
+                PartnerUniModuleRelTypes.CREATE_MODULE,
+                getAcceptRequestHeader(),
+                this.primaryId);
+
     }
 }
