@@ -28,4 +28,4 @@ Then the integration tests will be executed. Finally, the container will be stop
 be located in the src/test/java directory and must end with IT. See class TestBeyondCampusAppIT for an example.
 
 # Portfolio 3 video
-![Alt text](https://drive.google.com/file/d/1OMy0WvS-7yqk3TsKoB3qDDkoNO9_l9h0/view?usp=drive_link)
+![Alt text](https://drive.google.com/file/d/1OMy0WvS-7yqk3TsKoB3qDDkoNO9_l9h0)
