@@ -26,3 +26,6 @@ create an image. Finally, execute $> docker run -p 8080:8080 --rm <IMAGE_ID> to 
 Call mvn verify to start the integration tests. This will create a Docker image and start a container for the application.
 Then the integration tests will be executed. Finally, the container will be stopped and removed. All integration tests must
 be located in the src/test/java directory and must end with IT. See class TestBeyondCampusAppIT for an example.
+
+# Portfolio 3 video
+![Alt text](https://drive.google.com/file/d/1OMy0WvS-7yqk3TsKoB3qDDkoNO9_l9h0/view?usp=drive_link)
