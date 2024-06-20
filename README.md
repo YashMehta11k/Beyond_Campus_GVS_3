@@ -27,5 +27,8 @@ Call mvn verify to start the integration tests. This will create a Docker image 
 Then the integration tests will be executed. Finally, the container will be stopped and removed. All integration tests must
 be located in the src/test/java directory and must end with IT. See class TestBeyondCampusAppIT for an example.
 
+# Test on Postman with saved collections
+https://app.getpostman.com/join-team?invite_code=e2b82981bcd06045b4b50bf5e7daf5a8&target_code=53575c857f01d15b81f28f16ae33ae7a
+
 # Portfolio 3 video
 https://drive.google.com/file/d/1OMy0WvS-7yqk3TsKoB3qDDkoNO9_l9h0/view?usp=drive_link
